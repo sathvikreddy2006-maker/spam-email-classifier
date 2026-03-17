@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fake Email Detector</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl">
+        <h1 class="text-2xl font-bold mb-4 text-gray-800">📧 Fake Email Classifier</h1>
+        <textarea id="emailInput" class="w-full h-40 p-4 border rounded-md mb-4" placeholder="Paste the email content here..."></textarea>
+        <button onclick="checkEmail()" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">Analyze Email</button>
+        
+        <div id="result" class="mt-6 text-xl font-semibold hidden">
+            Result: <span id="predictionText"></span>
+        </div>
+    </div>
+
+    <script>
+        async function checkEmail() {
+            const content = document.getElementById('emailInput').value;
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ content })
+            });
+            const data = await response.json();
+            
+            const resultDiv = document.getElementById('result');
+            const textSpan = document.getElementById('predictionText');
+            
+            resultDiv.classList.remove('hidden');
+            textSpan.innerText = data.prediction;
+            textSpan.className = data.prediction === "Fake/Spam" ? "text-red-600" : "text-green-600";
+        }
+    </script>
+</body>
+</html>

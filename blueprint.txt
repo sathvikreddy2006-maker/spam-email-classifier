@@ -1,0 +1,9 @@
+fake-email-classifier/
+├── app.py               # FastAPI backend
+├── model/
+│   ├── classifier.pkl   # Your trained ML model
+│   └── vectorizer.pkl   # Your TF-IDF/Count vectorizer
+├── static/              # Frontend files
+│   └── index.html
+├── requirements.txt     # Python dependencies
+└── README.md
